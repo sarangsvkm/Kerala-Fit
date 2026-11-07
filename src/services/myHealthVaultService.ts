@@ -304,3 +304,4 @@ class MyHealthVaultService {
 }
 
 export const myHealthVaultService = new MyHealthVaultService();
+

@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: keralafit-backend
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/keralafit_db
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+# Custom Application JWT configurations
+app:
+  jwt:
+    # 256-bit secure key base64-encoded or custom secret
+    secret: dDFhM2I1YzdkOWUxZjJhNGI2YzhkMGUxZjJhNGI2YzhkMGUxZjJhNGI2YzhkMGU=
+    expiration-ms: 86400000 # 24 Hours

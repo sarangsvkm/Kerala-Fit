@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD Report Design//EN"
+  "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="weekly_report"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="515"
+              leftMargin="40"
+              rightMargin="40"
+              topMargin="40"
+              bottomMargin="40">
+
+    <!-- Parameters -->
+    <parameter name="reportTitle" class="java.lang.String"/>
+    <parameter name="userName" class="java.lang.String"/>
+    <parameter name="reportDate" class="java.lang.String"/>
+    <parameter name="weekRange" class="java.lang.String"/>
+    <parameter name="totalCalories" class="java.lang.Integer"/>
+    <parameter name="totalWaterLitres" class="java.lang.String"/>
+    <parameter name="totalSteps" class="java.lang.Integer"/>
+    <parameter name="avgSleepScore" class="java.lang.String"/>
+    <parameter name="latestWeight" class="java.lang.String"/>
+    <parameter name="calorieGoal" class="java.lang.Integer"/>
+    <parameter name="stepGoal" class="java.lang.Integer"/>
+
+    <title>
+        <band height="120" splitType="Stretch">
+            <!-- Header Background -->
+            <rectangle>
+                <reportElement x="0" y="0" width="515" height="100" backcolor="#0A0B10" forecolor="#0A0B10"/>
+                <graphicElement>
+                    <pen lineWidth="0"/>
+                </graphicElement>
+            </rectangle>
+
+            <!-- App Title -->
+            <staticText>
+                <reportElement x="10" y="10" width="495" height="35" forecolor="#10B981"/>
+                <textElement textAlignment="Center">
+                    <font size="22" isBold="true"/>
+                </textElement>
+                <text><![CDATA[KERALA FIT]]></text>
+            </staticText>
+
+            <!-- Report Subtitle -->
+            <textField>
+                <reportElement x="10" y="45" width="495" height="20" forecolor="#94A3B8"/>
+                <textElement textAlignment="Center">
+                    <font size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+            </textField>
+
+            <!-- User and Date Info -->
+            <textField>
+                <reportElement x="10" y="70" width="245" height="15" forecolor="#FFFFFF"/>
+                <textElement>
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["User: " + $P{userName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="260" y="70" width="245" height="15" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Right">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Period: " + $P{weekRange}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <detail>
+        <band height="500" splitType="Stretch">
+
+            <!-- Section Title: Summary -->
+            <staticText>
+                <reportElement x="0" y="10" width="515" height="20" forecolor="#10B981"/>
+                <textElement>
+                    <font size="13" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Weekly Health Summary]]></text>
+            </staticText>
+
+            <!-- Separator Line -->
+            <line>
+                <reportElement x="0" y="33" width="515" height="1" forecolor="#1E2030"/>
+            </line>
+
+            <!-- Row: Calories -->
+            <staticText>
+                <reportElement x="0" y="45" width="200" height="20" forecolor="#94A3B8"/>
+                <textElement><font size="10"/></textElement>
+                <text><![CDATA[🔥 Total Calories Consumed]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="45" width="315" height="20" forecolor="#F43F5E"/>
+                <textElement textAlignment="Right"><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$P{totalCalories} + " kcal  (Goal: " + $P{calorieGoal} + " kcal)"]]></textFieldExpression>
+            </textField>
+
+            <!-- Row: Water -->
+            <staticText>
+                <reportElement x="0" y="75" width="200" height="20" forecolor="#94A3B8"/>
+                <textElement><font size="10"/></textElement>
+                <text><![CDATA[💧 Total Water Consumed]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="75" width="315" height="20" forecolor="#0EA5E9"/>
+                <textElement textAlignment="Right"><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$P{totalWaterLitres} + " L"]]></textFieldExpression>
+            </textField>
+
+            <!-- Row: Steps -->
+            <staticText>
+                <reportElement x="0" y="105" width="200" height="20" forecolor="#94A3B8"/>
+                <textElement><font size="10"/></textElement>
+                <text><![CDATA[👟 Total Steps Walked]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="105" width="315" height="20" forecolor="#FBBF24"/>
+                <textElement textAlignment="Right"><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[String.format("%,d", $P{totalSteps}) + " steps  (Goal: " + String.format("%,d", $P{stepGoal}) + ")"]]></textFieldExpression>
+            </textField>
+
+            <!-- Row: Sleep -->
+            <staticText>
+                <reportElement x="0" y="135" width="200" height="20" forecolor="#94A3B8"/>
+                <textElement><font size="10"/></textElement>
+                <text><![CDATA[🌙 Average Sleep Score]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="135" width="315" height="20" forecolor="#6366F1"/>
+                <textElement textAlignment="Right"><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$P{avgSleepScore} + " / 100"]]></textFieldExpression>
+            </textField>
+
+            <!-- Row: Weight -->
+            <staticText>
+                <reportElement x="0" y="165" width="200" height="20" forecolor="#94A3B8"/>
+                <textElement><font size="10"/></textElement>
+                <text><![CDATA[⚖ Current Weight]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="165" width="315" height="20" forecolor="#EC4899"/>
+                <textElement textAlignment="Right"><font size="10" isBold="true"/></textElement>
+                <textFieldExpression><![CDATA[$P{latestWeight}]]></textFieldExpression>
+            </textField>
+
+            <!-- Footer -->
+            <staticText>
+                <reportElement x="0" y="230" width="515" height="15" forecolor="#64748B"/>
+                <textElement textAlignment="Center"><font size="8"/></textElement>
+                <text><![CDATA[Generated by Kerala Fit — AI Powered Health & Fitness Tracking Application]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="248" width="515" height="12" forecolor="#64748B"/>
+                <textElement textAlignment="Center"><font size="7"/></textElement>
+                <textFieldExpression><![CDATA["Report Date: " + $P{reportDate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>
