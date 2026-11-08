@@ -301,6 +301,79 @@ class MyHealthVaultService {
   async getLastSync(): Promise<string | null> {
     return await AsyncStorage.getItem(STORAGE_KEYS.LAST_SYNC);
   }
+
+  /**
+   * Queries the unified AI Coach on the Spring Boot backend
+   */
+  async getAiCoachAdvice(query: string): Promise<string> {
+    try {
+      const res = await fetch(`${this.apiUrl}/api/v1/coach/ask`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return data.response || '';
+      }
+    } catch {}
+    return '';
+  }
+
+  /**
+   * Direct logging of a meal to the unified Spring Boot backend
+   */
+  async logFoodMeal(name: string, category: string, calories: number, mealType: string) {
+    const token = await this.getToken();
+    if (!token) return null;
+    try {
+      const res = await fetch(`${this.apiUrl}/api/v1/fitness/food`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ name, category, calories, mealType }),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+    return null;
+  }
+
+  /**
+   * Direct logging of a workout to the unified Spring Boot backend
+   */
+  async logWorkout(planName: string, durationMinutes: number) {
+    const token = await this.getToken();
+    if (!token) return null;
+    try {
+      const res = await fetch(`${this.apiUrl}/api/v1/fitness/workout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ planName, durationMinutes }),
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+    return null;
+  }
+
+  /**
+   * Fetches unified health & fitness summary (calories + workouts + medical reports count)
+   */
+  async getUnifiedSummary() {
+    const token = await this.getToken();
+    if (!token) return null;
+    try {
+      const res = await fetch(`${this.apiUrl}/api/v1/fitness/summary`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) return await res.json();
+    } catch {}
+    return null;
+  }
 }
 
 export const myHealthVaultService = new MyHealthVaultService();
